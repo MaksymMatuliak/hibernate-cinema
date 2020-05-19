@@ -1,22 +1,26 @@
 package com.dev.cinema.model;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "movies")
 public class Movie {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY )
-    private Long movie_id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long movieId;
     private String title;
     private String description;
 
-    public Long getMovie_id() {
-        return movie_id;
+    public Long getMovieId() {
+        return movieId;
     }
 
-    public void setMovie_id(Long id) {
-        this.movie_id = id;
+    public void setMovieId(Long id) {
+        this.movieId = id;
     }
 
     public String getTitle() {
@@ -37,10 +41,10 @@ public class Movie {
 
     @Override
     public String toString() {
-        return "Movie{" +
-                "movie_id=" + movie_id +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                '}';
+        return "Movie{"
+                + "movie_id=" + movieId
+                + ", title='" + title + '\''
+                + ", description='" + description + '\''
+                + '}';
     }
 }
