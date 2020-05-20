@@ -7,7 +7,6 @@ import com.dev.cinema.model.MovieSession;
 import com.dev.cinema.service.MovieSessionService;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class MovieSessionServiceImpl implements MovieSessionService {
@@ -16,13 +15,7 @@ public class MovieSessionServiceImpl implements MovieSessionService {
 
     @Override
     public List<MovieSession> findAvailableSessions(Long movieId, LocalDate date) {
-        return movieSessionDao.getAll()
-                .stream()
-                .filter(f -> f.getMovie().getMovieId().equals(movieId)
-                        && f.getTime().getYear() == date.getYear()
-                        && f.getTime().getMonth().equals(date.getMonth())
-                        && f.getTime().getDayOfMonth() == date.getDayOfMonth())
-                .collect(Collectors.toList());
+        return movieSessionDao.findAvailableSessions(movieId, date);
     }
 
     @Override
