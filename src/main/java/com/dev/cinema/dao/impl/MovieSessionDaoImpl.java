@@ -17,7 +17,9 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
     @Override
     public MovieSession add(MovieSession movieSession) {
         Transaction transaction = null;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        Session session = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
             transaction = session.beginTransaction();
             Long movieSessionId = (Long) session.save(movieSession);
             transaction.commit();
@@ -28,24 +30,36 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
                 transaction.rollback();
             }
             throw new RuntimeException("Can't insert movie session entity", e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
     }
 
     @Override
     public List<MovieSession> getAll() {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        Session session = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
             CriteriaQuery<MovieSession> criteriaQuery =
                     session.getCriteriaBuilder().createQuery(MovieSession.class);
             criteriaQuery.from(MovieSession.class);
             return session.createQuery(criteriaQuery).getResultList();
         } catch (Exception e) {
             throw new DataProcessingException("Can't get movie sessions", e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
     }
 
     @Override
     public List<MovieSession> findAvailableSessions(Long movieId, LocalDate date) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        Session session = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
             Query query = session.createQuery("FROM MovieSession "
                     + "WHERE movie.movieId = :movieId AND time BETWEEN :time AND :time2");
             query.setParameter("movieId", movieId);
@@ -54,6 +68,10 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
             return query.getResultList();
         } catch (Exception e) {
             throw new DataProcessingException("Can't get available movie sessions", e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
     }
 }
