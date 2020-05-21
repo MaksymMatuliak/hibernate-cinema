@@ -29,7 +29,7 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't insert movie session entity", e);
+            throw new DataProcessingException("Can't add movie sessions", e);
         } finally {
             if (session != null) {
                 session.close();
@@ -39,39 +39,27 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
 
     @Override
     public List<MovieSession> getAll() {
-        Session session = null;
-        try {
-            session = HibernateUtil.getSessionFactory().openSession();
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             CriteriaQuery<MovieSession> criteriaQuery =
                     session.getCriteriaBuilder().createQuery(MovieSession.class);
             criteriaQuery.from(MovieSession.class);
             return session.createQuery(criteriaQuery).getResultList();
         } catch (Exception e) {
             throw new DataProcessingException("Can't get movie sessions", e);
-        } finally {
-            if (session != null) {
-                session.close();
-            }
         }
     }
 
     @Override
     public List<MovieSession> findAvailableSessions(Long movieId, LocalDate date) {
-        Session session = null;
-        try {
-            session = HibernateUtil.getSessionFactory().openSession();
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query query = session.createQuery("FROM MovieSession "
-                    + "WHERE movie.movieId = :movieId AND time BETWEEN :time AND :time2");
+                    + "WHERE movie.movieId = :movieId AND time BETWEEN :startDay AND :endDay");
             query.setParameter("movieId", movieId);
-            query.setParameter("time", date.atStartOfDay());
-            query.setParameter("time2", date.atStartOfDay().plusDays(1));
+            query.setParameter("startDay", date.atStartOfDay());
+            query.setParameter("endDay", date.atStartOfDay().plusDays(1));
             return query.getResultList();
         } catch (Exception e) {
             throw new DataProcessingException("Can't get available movie sessions", e);
-        } finally {
-            if (session != null) {
-                session.close();
-            }
         }
     }
 }
