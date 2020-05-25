@@ -5,4 +5,6 @@ import com.dev.cinema.model.User;
 
 public interface AuthenticationService {
     User login(String email, String password) throws AuthenticationException;
+
+    User register(String email, String name, String password);
 }
