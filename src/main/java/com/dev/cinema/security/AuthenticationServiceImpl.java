@@ -14,12 +14,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public User login(String email, String password) throws AuthenticationException {
-        User userFromDB;
-        try {
-            userFromDB = userService.findByEmail(email);
-        } catch (Exception e) {
-            throw new AuthenticationException("Incorrect login or password");
-        }
+        User userFromDB = userService.findByEmail(email);
         if (userFromDB.getPassword().equals(
                 HashUtil.hashPassword(password, userFromDB.getSalt()))) {
             return userFromDB;

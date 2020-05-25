@@ -1,5 +1,6 @@
 package com.dev.cinema.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,10 +13,12 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long userId;
-    String email;
     String name;
     String password;
     byte[] salt;
+
+    @Column(unique = true)
+    String email;
 
     public byte[] getSalt() {
         return salt;

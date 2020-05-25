@@ -6,6 +6,7 @@ import com.dev.cinema.lib.Dao;
 import com.dev.cinema.model.User;
 import com.dev.cinema.util.HashUtil;
 import com.dev.cinema.util.HibernateUtil;
+import java.util.Optional;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
@@ -39,11 +40,14 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public User findByEmail(String email) {
+    public Optional<User> findByEmail(String email) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Query query = session.createQuery("FROM User WHERE email = :email");
             query.setParameter("email", email);
-            return (User) query.getSingleResult();
+            if (query.getResultList().isEmpty()) {
+                return Optional.empty();
+            }
+            return Optional.of((User) query.getSingleResult());
         } catch (Exception e) {
             throw new DataProcessingException("Can't get user", e);
         }
