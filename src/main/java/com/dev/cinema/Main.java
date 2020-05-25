@@ -47,7 +47,7 @@ public class Main {
         authenticationService.register("maksym@gmail.com", "Maks", "1234");
         authenticationService.register("iv@gmail.com", "Ivan", "1234");
         try {
-            System.out.println(authenticationService.login("maksym@gmail.com", "1234").toString());
+            System.out.println(authenticationService.login("aksym@gmail.com", "1234").toString());
         } catch (AuthenticationException e) {
             e.printStackTrace();
         }
