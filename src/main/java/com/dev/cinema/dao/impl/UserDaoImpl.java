@@ -23,9 +23,8 @@ public class UserDaoImpl implements UserDao {
             byte[] salt = HashUtil.getSalt();
             user.setSalt(salt);
             user.setPassword(HashUtil.hashPassword(user.getPassword(), salt));
-            Long userId = (Long) session.save(user);
+            session.save(user);
             transaction.commit();
-            user.setUserId(userId);
             return user;
         } catch (Exception e) {
             if (transaction != null) {
