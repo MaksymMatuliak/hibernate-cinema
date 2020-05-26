@@ -1,5 +1,6 @@
 package com.dev.cinema.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,7 +19,7 @@ public class ShoppingCart {
     private Long shoppingCartId;
 
     @OneToMany
-    private List<Ticket> tickets;
+    private List<Ticket> tickets = new ArrayList<>();
 
     @OneToOne
     @MapsId
