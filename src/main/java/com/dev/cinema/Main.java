@@ -1,7 +1,7 @@
 package com.dev.cinema;
 
+import com.dev.cinema.config.AppConfig;
 import com.dev.cinema.exceptions.AuthenticationException;
-import com.dev.cinema.lib.Injector;
 import com.dev.cinema.model.CinemaHall;
 import com.dev.cinema.model.Movie;
 import com.dev.cinema.model.MovieSession;
@@ -17,23 +17,24 @@ import com.dev.cinema.service.ShoppingCartService;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class Main {
-    private static Injector injector = Injector.getInstance("com.dev");
-
     public static void main(String[] args) {
+        AnnotationConfigApplicationContext context =
+                new AnnotationConfigApplicationContext(AppConfig.class);
+
+        MovieService movieService = context.getBean(MovieService.class);
         Movie movie = new Movie();
         movie.setTitle("Very interesting film");
         movie.setDescription("It's very interesting film maybe");
-        MovieService movieService = (MovieService) injector.getInstance(MovieService.class);
         movieService.add(movie);
         movieService.getAll().forEach(System.out::println);
 
+        CinemaHallService cinemaHallService = context.getBean(CinemaHallService.class);
         CinemaHall cinemaHall = new CinemaHall();
         cinemaHall.setCapacity(200);
         cinemaHall.setDescription("Bid and pretty hall");
-        CinemaHallService cinemaHallService =
-                (CinemaHallService) injector.getInstance(CinemaHallService.class);
         cinemaHallService.add(cinemaHall);
         cinemaHallService.getAll().forEach(System.out::println);
 
@@ -41,14 +42,12 @@ public class Main {
         movieSession.setTime(LocalDateTime.of(2020, Month.JUNE, 20, 19, 30));
         movieSession.setMovie(movie);
         movieSession.setCinemaHall(cinemaHall);
-        MovieSessionService movieSessionService =
-                (MovieSessionService) injector.getInstance(MovieSessionService.class);
+        MovieSessionService movieSessionService = context.getBean(MovieSessionService.class);
         movieSessionService.add(movieSession);
         System.out.println(movieSessionService.findAvailableSessions(
                 movie.getMovieId(), LocalDate.of(2020, Month.JUNE, 20)));
 
-        AuthenticationService authenticationService =
-                (AuthenticationService) injector.getInstance(AuthenticationService.class);
+        AuthenticationService authenticationService = context.getBean(AuthenticationService.class);
         User user = authenticationService.register("maksym@gmail.com", "Maks", "1234");
         authenticationService.register("iv@gmail.com", "Ivan", "1234");
         try {
@@ -57,14 +56,12 @@ public class Main {
             e.printStackTrace();
         }
 
-        ShoppingCartService shoppingCartService =
-                (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
+        ShoppingCartService shoppingCartService = context.getBean(ShoppingCartService.class);
         shoppingCartService.addSession(movieSession, user);
-
         ShoppingCart shoppingCart = shoppingCartService.getByUser(user);
         System.out.println(shoppingCart);
 
-        OrderService orderService = (OrderService) injector.getInstance(OrderService.class);
+        OrderService orderService = context.getBean(OrderService.class);
         Order order = orderService.completeOrder(shoppingCart.getTickets(), user);
         System.out.println(order);
         orderService.getOrderHistory(user).stream().forEach(System.out::println);
