@@ -14,11 +14,11 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    Long userId;
-    String name;
-    String password;
-    byte[] salt;
-    String email;
+    private Long userId;
+    private String name;
+    private String password;
+    private byte[] salt;
+    private String email;
 
     public byte[] getSalt() {
         return salt;
