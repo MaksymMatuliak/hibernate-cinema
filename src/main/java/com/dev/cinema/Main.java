@@ -65,5 +65,6 @@ public class Main {
         Order order = orderService.completeOrder(shoppingCart.getTickets(), user);
         System.out.println(order);
         orderService.getOrderHistory(user).stream().forEach(System.out::println);
+        context.close();
     }
 }
