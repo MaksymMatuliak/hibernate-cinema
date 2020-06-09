@@ -46,6 +46,7 @@ public class AppConfig {
         Properties properties = new Properties();
         properties.put("hibernate.show_sql", environment.getProperty("hibernate.show_sql"));
         properties.put("hibernate.hbm2ddl.auto", environment.getProperty("hibernate.hbm2ddl.auto"));
+        localSessionFactoryBean.setPackagesToScan("com.dev.cinema.model");
         localSessionFactoryBean.setHibernateProperties(properties);
         localSessionFactoryBean.setAnnotatedClasses(
                 User.class, Movie.class, CinemaHall.class, MovieSession.class,
