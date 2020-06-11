@@ -13,10 +13,12 @@ import java.util.stream.Collectors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/orders")
 public class OrderController {
     private final OrderService orderService;
     private final UserService userService;
@@ -29,14 +31,14 @@ public class OrderController {
         this.orderConvertUtil = orderConvertUtil;
     }
 
-    @PostMapping("/orders/complete")
+    @PostMapping("/complete")
     public void completeOrder(@RequestBody OrderRequestDto orderRequestDto) {
         List<Ticket> tickets = new ArrayList<>();
         User user = userService.getById(orderRequestDto.getUserId()).get();
         orderService.completeOrder(tickets, user);
     }
 
-    @GetMapping("/orders")
+    @GetMapping
     public List<OrderResponseDto> getOrderHistory(@RequestParam Long userId) {
         return orderService.getOrderHistory(userService.getById(userId).get())
                 .stream()

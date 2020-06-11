@@ -14,10 +14,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/movie-sessions")
 public class MovieSessionController {
     private final MovieSessionService movieSessionService;
     private final MovieService movieService;
@@ -34,12 +36,12 @@ public class MovieSessionController {
         this.movieSessionConvertUtil = movieSessionConvertUtil;
     }
 
-    @PostMapping("/movie-sessions")
+    @PostMapping
     public void addMovieSession(@RequestBody MovieSessionRequestDto movieSessionRequestDto) {
         movieSessionService.add(movieSessionConvertUtil.requestDtoToEntity(movieSessionRequestDto));
     }
 
-    @GetMapping("/movie-sessions/available{movieSessionId, date}")
+    @GetMapping("/available{movieSessionId, date}")
     public List<MovieSessionResponseDto> getAvailableMovieSessions(
             @PathVariable Long movieSessionId,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {

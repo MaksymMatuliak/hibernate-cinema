@@ -10,10 +10,12 @@ import java.util.stream.Collectors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/shopping-carts")
 public class ShoppingCartController {
     private final ShoppingCartService shoppingCartService;
     private final UserService userService;
@@ -30,14 +32,14 @@ public class ShoppingCartController {
         this.ticketConvertUtil = ticketConvertUtil;
     }
 
-    @PostMapping("/shopping-carts/add-movie-session/{movieSessionId}")
+    @PostMapping("/add-movie-session/{movieSessionId}")
     public void addMovieSessionToShoppingCart(
             @PathVariable Long movieSessionId, @RequestParam Long userId) {
         shoppingCartService.addSession(movieSessionService.getById(movieSessionId).get(),
                 userService.getById(userId).get());
     }
 
-    @GetMapping("/shopping-carts/by-user")
+    @GetMapping("/by-user")
     public List<TicketResponseDto> getShoppingCart(@RequestParam Long userId) {
         return shoppingCartService.getByUser(userService.getById(userId).get())
                 .getTickets()
