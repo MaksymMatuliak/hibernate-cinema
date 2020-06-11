@@ -41,10 +41,10 @@ public class MovieSessionController {
         movieSessionService.add(movieSessionConvertUtil.requestDtoToEntity(movieSessionRequestDto));
     }
 
-    @GetMapping("/available{movieSessionId, date}")
+    @GetMapping("/available")
     public List<MovieSessionResponseDto> getAvailableMovieSessions(
-            @PathVariable Long movieSessionId,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+            @RequestParam Long movieSessionId,
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
         return movieSessionService.findAvailableSessions(movieSessionId, date)
                 .stream()
                 .map(movieSessionConvertUtil::entityToResponseDto)
