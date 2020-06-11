@@ -56,7 +56,7 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
     @Override
     public List<MovieSession> findAvailableSessions(Long movieId, LocalDate date) {
         try (Session session = sessionFactory.openSession()) {
-            Query query = session.createQuery("FROM MovieSession "
+            Query<MovieSession> query = session.createQuery("FROM MovieSession "
                     + "WHERE movie.movieId = :movieId AND time BETWEEN :startDay AND :endDay");
             query.setParameter("movieId", movieId);
             query.setParameter("startDay", date.atStartOfDay());

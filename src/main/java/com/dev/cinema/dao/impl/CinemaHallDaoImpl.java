@@ -55,9 +55,10 @@ public class CinemaHallDaoImpl implements CinemaHallDao {
     @Override
     public Optional<CinemaHall> getById(Long cinemaHallId) {
         try (Session session = sessionFactory.openSession()) {
-            Query query = session.createQuery("FROM CinemaHall WHERE cinemaHallId = :cinemaHallId");
+            Query<CinemaHall> query =
+                    session.createQuery("FROM CinemaHall WHERE cinemaHallId = :cinemaHallId");
             query.setParameter("cinemaHallId", cinemaHallId);
-            return Optional.ofNullable((CinemaHall) query.uniqueResult());
+            return Optional.ofNullable(query.uniqueResult());
         } catch (Exception e) {
             throw new DataProcessingException("Can't get cinema hall", e);
         }
