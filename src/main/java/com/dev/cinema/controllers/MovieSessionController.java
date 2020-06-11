@@ -8,10 +8,11 @@ import com.dev.cinema.service.MovieService;
 import com.dev.cinema.service.MovieSessionService;
 import com.dev.cinema.util.MovieSessionConvertUtil;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -41,12 +42,13 @@ public class MovieSessionController {
                         movieSessionRequestDto));
     }
 
-    @GetMapping("/movie-sessions/available")
+    @GetMapping("/movie-sessions/available{movieSessionId, date}")
     public List<MovieSessionResponseDto> getAvailableMovieSessions(
-            @RequestParam Long movieSessionId, @RequestParam String date) {
+            @PathVariable Long movieSessionId,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
         List<MovieSessionResponseDto> movieSessionsResponseDto = new ArrayList<>();
         for (MovieSession movieSession : movieSessionService.findAvailableSessions(
-                movieSessionId, LocalDate.parse(date, DateTimeFormatter.ofPattern("MM.dd.yyyy")))) {
+                movieSessionId, date)) {
             movieSessionsResponseDto.add(
                     movieSessionConvertUtil.convertMovieSessionIntoMovieSessionResponseDto(
                             movieSession));

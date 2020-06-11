@@ -17,7 +17,8 @@ public class CinemaHallController {
     private final CinemaHallService cinemaHallService;
     private final CinemaHallConvertUtil cinemaHallConvertUtil;
 
-    public CinemaHallController(CinemaHallService cinemaHallService, CinemaHallConvertUtil cinemaHallConvertUtil) {
+    public CinemaHallController(CinemaHallService cinemaHallService,
+                                CinemaHallConvertUtil cinemaHallConvertUtil) {
         this.cinemaHallService = cinemaHallService;
         this.cinemaHallConvertUtil = cinemaHallConvertUtil;
     }

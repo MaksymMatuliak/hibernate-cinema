@@ -5,8 +5,6 @@ import com.dev.cinema.model.dto.MovieSessionRequestDto;
 import com.dev.cinema.model.dto.MovieSessionResponseDto;
 import com.dev.cinema.service.CinemaHallService;
 import com.dev.cinema.service.MovieService;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -36,8 +34,7 @@ public class MovieSessionConvertUtil {
         MovieSession movieSession = new MovieSession();
         movieSession.setCinemaHall(
                 cinemaHallService.getById(movieSessionRequestDto.getCinemaHallId()).get());
-        movieSession.setTime(LocalDateTime.parse(
-                movieSessionRequestDto.getTime(), DateTimeFormatter.ofPattern("yyyyMMddHHmm")));
+        movieSession.setTime(movieSessionRequestDto.getTime());
         movieSession.setMovie(movieService.getById(movieSessionRequestDto.getMovieId()).get());
         return movieSession;
     }

@@ -1,17 +1,18 @@
 package com.dev.cinema.model.dto;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class OrderRequestDto {
-    private String time;
+    private LocalDateTime time;
     private List<TicketRequestDto> ticketsRequestDto;
     private Long userId;
 
-    public String getTime() {
+    public LocalDateTime getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(LocalDateTime time) {
         this.time = time;
     }
 

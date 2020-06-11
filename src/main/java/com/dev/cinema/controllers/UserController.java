@@ -4,7 +4,7 @@ import com.dev.cinema.model.dto.UserResponseDto;
 import com.dev.cinema.service.UserService;
 import com.dev.cinema.util.UserConvertUtil;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -17,8 +17,8 @@ public class UserController {
         this.userConvertUtil = userConvertUtil;
     }
 
-    @GetMapping("/user/{email}")
-    public UserResponseDto getUser(@PathVariable String email) {
+    @GetMapping("/user")
+    public UserResponseDto getUser(@RequestParam String email) {
         return userConvertUtil.convertUserIntoUserResponseDto(userService.findByEmail(email).get());
     }
 }

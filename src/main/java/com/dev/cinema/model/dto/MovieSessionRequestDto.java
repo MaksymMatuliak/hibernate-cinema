@@ -1,15 +1,17 @@
 package com.dev.cinema.model.dto;
 
+import java.time.LocalDateTime;
+
 public class MovieSessionRequestDto {
-    private String time;
+    private LocalDateTime time;
     private Long movieId;
     private Long cinemaHallId;
 
-    public String getTime() {
+    public LocalDateTime getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(LocalDateTime time) {
         this.time = time;
     }
 
