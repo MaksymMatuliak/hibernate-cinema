@@ -1,6 +1,5 @@
 package com.dev.cinema.controllers;
 
-import com.dev.cinema.model.Order;
 import com.dev.cinema.model.Ticket;
 import com.dev.cinema.model.User;
 import com.dev.cinema.model.dto.OrderRequestDto;
@@ -10,6 +9,7 @@ import com.dev.cinema.service.UserService;
 import com.dev.cinema.util.OrderConvertUtil;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,10 +38,9 @@ public class OrderController {
 
     @GetMapping("/orders")
     public List<OrderResponseDto> getOrderHistory(@RequestParam Long userId) {
-        List<OrderResponseDto> ordersResponseDto = new ArrayList<>();
-        for (Order order : orderService.getOrderHistory(userService.getById(userId).get())) {
-            ordersResponseDto.add(orderConvertUtil.convertOrderIntoOrderResponseDto(order));
-        }
-        return ordersResponseDto;
+        return orderService.getOrderHistory(userService.getById(userId).get())
+                .stream()
+                .map(orderConvertUtil::entityToResponseDto)
+                .collect(Collectors.toList());
     }
 }

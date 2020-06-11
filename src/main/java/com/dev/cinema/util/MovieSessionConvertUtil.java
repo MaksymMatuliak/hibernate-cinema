@@ -19,8 +19,7 @@ public class MovieSessionConvertUtil {
         this.movieService = movieService;
     }
 
-    public MovieSessionResponseDto convertMovieSessionIntoMovieSessionResponseDto(
-            MovieSession movieSession) {
+    public MovieSessionResponseDto entityToResponseDto(MovieSession movieSession) {
         MovieSessionResponseDto movieSessionResponseDto = new MovieSessionResponseDto();
         movieSessionResponseDto.setCinemaHallId(movieSession.getCinemaHall().getCinemaHallId());
         movieSessionResponseDto.setMovieSessionId(movieSession.getMovieSessionId());
@@ -29,8 +28,7 @@ public class MovieSessionConvertUtil {
         return movieSessionResponseDto;
     }
 
-    public MovieSession convertMovieSessionRequestDtoIntoMovieSession(
-            MovieSessionRequestDto movieSessionRequestDto) {
+    public MovieSession requestDtoToEntity(MovieSessionRequestDto movieSessionRequestDto) {
         MovieSession movieSession = new MovieSession();
         movieSession.setCinemaHall(
                 cinemaHallService.getById(movieSessionRequestDto.getCinemaHallId()).get());

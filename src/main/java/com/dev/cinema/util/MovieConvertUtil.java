@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class MovieConvertUtil {
-    public MovieResponseDto convertMovieIntoMovieResponseDto(Movie movie) {
+    public MovieResponseDto entityToResponseDto(Movie movie) {
         MovieResponseDto movieResponseDto = new MovieResponseDto();
         movieResponseDto.setMovieId(movie.getMovieId());
         movieResponseDto.setDescription(movie.getDescription());
@@ -15,7 +15,7 @@ public class MovieConvertUtil {
         return movieResponseDto;
     }
 
-    public Movie convertMovieRequestDtoIntoMovie(MovieRequestDto movieRequestDto) {
+    public Movie requestDtoToEntity(MovieRequestDto movieRequestDto) {
         Movie movie = new Movie();
         movie.setTitle(movieRequestDto.getTitle());
         movie.setDescription(movieRequestDto.getDescription());

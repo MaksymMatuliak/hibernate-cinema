@@ -1,18 +1,18 @@
 package com.dev.cinema.controllers;
 
-import com.dev.cinema.model.Movie;
 import com.dev.cinema.model.dto.MovieRequestDto;
 import com.dev.cinema.model.dto.MovieResponseDto;
 import com.dev.cinema.service.MovieService;
 import com.dev.cinema.util.MovieConvertUtil;
-import java.util.ArrayList;
 import java.util.List;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import java.util.stream.Collectors;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/movies")
 public class MovieController {
     private final MovieService movieService;
     private final MovieConvertUtil movieConvertUtil;
@@ -22,17 +22,16 @@ public class MovieController {
         this.movieConvertUtil = movieConvertUtil;
     }
 
-    @PostMapping("/movies")
+    @RequestMapping(method = RequestMethod.POST)
     public void addMovie(@RequestBody MovieRequestDto movieRequestDto) {
-        movieService.add(movieConvertUtil.convertMovieRequestDtoIntoMovie(movieRequestDto));
+        movieService.add(movieConvertUtil.requestDtoToEntity(movieRequestDto));
     }
 
-    @GetMapping("/movies")
+    @RequestMapping(method = RequestMethod.GET)
     public List<MovieResponseDto> getMovies() {
-        List<MovieResponseDto> moviesResponseDto = new ArrayList<>();
-        for (Movie movie : movieService.getAll()) {
-            moviesResponseDto.add(movieConvertUtil.convertMovieIntoMovieResponseDto(movie));
-        }
-        return moviesResponseDto;
+        return movieService.getAll()
+                .stream()
+                .map(movieConvertUtil::entityToResponseDto)
+                .collect(Collectors.toList());
     }
 }

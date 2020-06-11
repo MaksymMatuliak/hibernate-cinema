@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class CinemaHallConvertUtil {
-    public CinemaHallResponseDto convertCinemaHallIntoCinemaHallResponseDto(CinemaHall cinemaHall) {
+    public CinemaHallResponseDto entityToResponseDto(CinemaHall cinemaHall) {
         CinemaHallResponseDto cinemaHallResponseDto = new CinemaHallResponseDto();
         cinemaHallResponseDto.setCinemaId(cinemaHall.getCinemaHallId());
         cinemaHallResponseDto.setDescription(cinemaHall.getDescription());
@@ -15,8 +15,7 @@ public class CinemaHallConvertUtil {
         return cinemaHallResponseDto;
     }
 
-    public CinemaHall convertCinemaHallRequestDtoIntoCinemaHall(
-            CinemaHallRequestDto cinemaHallRequestDto) {
+    public CinemaHall requestDtoToEntity(CinemaHallRequestDto cinemaHallRequestDto) {
         CinemaHall cinemaHall = new CinemaHall();
         cinemaHall.setDescription(cinemaHallRequestDto.getDescription());
         cinemaHall.setCapacity(cinemaHallRequestDto.getCapacity());

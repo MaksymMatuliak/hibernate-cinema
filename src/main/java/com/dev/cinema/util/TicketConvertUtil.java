@@ -17,14 +17,12 @@ public class TicketConvertUtil {
         this.userConvertUtil = userConvertUtil;
     }
 
-    public TicketResponseDto convertTicketIntoTicketResponseDto(Ticket ticket) {
+    public TicketResponseDto entityToResponseDto(Ticket ticket) {
         TicketResponseDto ticketResponseDto = new TicketResponseDto();
         ticketResponseDto.setMovieSessionResponseDto(
-                movieSessionConvertUtil.convertMovieSessionIntoMovieSessionResponseDto(
-                        ticket.getMovieSession()));
+                movieSessionConvertUtil.entityToResponseDto(ticket.getMovieSession()));
         ticketResponseDto.setTicketId(ticket.getTicketId());
-        ticketResponseDto.setUserResponseDto(
-                userConvertUtil.convertUserIntoUserResponseDto(ticket.getUser()));
+        ticketResponseDto.setUserResponseDto(userConvertUtil.entityToResponseDto(ticket.getUser()));
         return ticketResponseDto;
     }
 }

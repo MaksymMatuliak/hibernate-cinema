@@ -1,13 +1,12 @@
 package com.dev.cinema.controllers;
 
-import com.dev.cinema.model.Ticket;
 import com.dev.cinema.model.dto.TicketResponseDto;
 import com.dev.cinema.service.MovieSessionService;
 import com.dev.cinema.service.ShoppingCartService;
 import com.dev.cinema.service.UserService;
 import com.dev.cinema.util.TicketConvertUtil;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,11 +39,9 @@ public class ShoppingCartController {
 
     @GetMapping("/shopping-carts/by-user")
     public List<TicketResponseDto> getShoppingCart(@RequestParam Long userId) {
-        List<TicketResponseDto> ticketsResponseDto = new ArrayList<>();
-        for (Ticket ticket : shoppingCartService.getByUser(
-                userService.getById(userId).get()).getTickets()) {
-            ticketsResponseDto.add(ticketConvertUtil.convertTicketIntoTicketResponseDto(ticket));
-        }
-        return ticketsResponseDto;
+        return shoppingCartService.getByUser(userService.getById(userId).get())
+                .getTickets()
+                .stream().map(ticketConvertUtil::entityToResponseDto)
+                .collect(Collectors.toList());
     }
 }

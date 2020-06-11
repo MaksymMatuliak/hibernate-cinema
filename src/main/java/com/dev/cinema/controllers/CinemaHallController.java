@@ -1,18 +1,18 @@
 package com.dev.cinema.controllers;
 
-import com.dev.cinema.model.CinemaHall;
 import com.dev.cinema.model.dto.CinemaHallRequestDto;
 import com.dev.cinema.model.dto.CinemaHallResponseDto;
 import com.dev.cinema.service.CinemaHallService;
 import com.dev.cinema.util.CinemaHallConvertUtil;
-import java.util.ArrayList;
 import java.util.List;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import java.util.stream.Collectors;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/cinema-halls")
 public class CinemaHallController {
     private final CinemaHallService cinemaHallService;
     private final CinemaHallConvertUtil cinemaHallConvertUtil;
@@ -23,19 +23,16 @@ public class CinemaHallController {
         this.cinemaHallConvertUtil = cinemaHallConvertUtil;
     }
 
-    @PostMapping("/cinema-halls")
+    @RequestMapping(method = RequestMethod.POST)
     public void addCinemaHall(@RequestBody CinemaHallRequestDto cinemaHallRequestDto) {
-        cinemaHallService.add(cinemaHallConvertUtil.convertCinemaHallRequestDtoIntoCinemaHall(
-                cinemaHallRequestDto));
+        cinemaHallService.add(cinemaHallConvertUtil.requestDtoToEntity(cinemaHallRequestDto));
     }
 
-    @GetMapping("/cinema-halls")
+    @RequestMapping(method = RequestMethod.GET)
     public List<CinemaHallResponseDto> getCinemaHalls() {
-        List<CinemaHallResponseDto> cinemaHallsResponseDto = new ArrayList<>();
-        for (CinemaHall cinemaHall : cinemaHallService.getAll()) {
-            cinemaHallsResponseDto.add(
-                    cinemaHallConvertUtil.convertCinemaHallIntoCinemaHallResponseDto(cinemaHall));
-        }
-        return cinemaHallsResponseDto;
+        return cinemaHallService.getAll()
+                .stream()
+                .map(cinemaHallConvertUtil::entityToResponseDto)
+                .collect(Collectors.toList());
     }
 }

@@ -1,6 +1,5 @@
 package com.dev.cinema.controllers;
 
-import com.dev.cinema.model.MovieSession;
 import com.dev.cinema.model.dto.MovieSessionRequestDto;
 import com.dev.cinema.model.dto.MovieSessionResponseDto;
 import com.dev.cinema.service.CinemaHallService;
@@ -8,8 +7,8 @@ import com.dev.cinema.service.MovieService;
 import com.dev.cinema.service.MovieSessionService;
 import com.dev.cinema.util.MovieSessionConvertUtil;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,22 +36,16 @@ public class MovieSessionController {
 
     @PostMapping("/movie-sessions")
     public void addMovieSession(@RequestBody MovieSessionRequestDto movieSessionRequestDto) {
-        movieSessionService.add(
-                movieSessionConvertUtil.convertMovieSessionRequestDtoIntoMovieSession(
-                        movieSessionRequestDto));
+        movieSessionService.add(movieSessionConvertUtil.requestDtoToEntity(movieSessionRequestDto));
     }
 
     @GetMapping("/movie-sessions/available{movieSessionId, date}")
     public List<MovieSessionResponseDto> getAvailableMovieSessions(
             @PathVariable Long movieSessionId,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
-        List<MovieSessionResponseDto> movieSessionsResponseDto = new ArrayList<>();
-        for (MovieSession movieSession : movieSessionService.findAvailableSessions(
-                movieSessionId, date)) {
-            movieSessionsResponseDto.add(
-                    movieSessionConvertUtil.convertMovieSessionIntoMovieSessionResponseDto(
-                            movieSession));
-        }
-        return movieSessionsResponseDto;
+        return movieSessionService.findAvailableSessions(movieSessionId, date)
+                .stream()
+                .map(movieSessionConvertUtil::entityToResponseDto)
+                .collect(Collectors.toList());
     }
 }
