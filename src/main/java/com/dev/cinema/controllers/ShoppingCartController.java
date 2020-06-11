@@ -40,11 +40,11 @@ public class ShoppingCartController {
 
     @GetMapping("/shopping-carts/by-user")
     public List<TicketResponseDto> getShoppingCart(@RequestParam Long userId) {
-        List<TicketResponseDto> ticketsDto = new ArrayList<>();
+        List<TicketResponseDto> ticketsResponseDto = new ArrayList<>();
         for (Ticket ticket : shoppingCartService.getByUser(
                 userService.getById(userId).get()).getTickets()) {
-            ticketsDto.add(converterUtil.convertTicketIntoTicketResponseDto(ticket));
+            ticketsResponseDto.add(converterUtil.convertTicketIntoTicketResponseDto(ticket));
         }
-        return ticketsDto;
+        return ticketsResponseDto;
     }
 }

@@ -43,12 +43,12 @@ public class MovieSessionController {
     @GetMapping("/movie-sessions/available")
     public List<MovieSessionResponseDto> getAvailableMovieSessions(
             @RequestParam Long movieSessionId, @RequestParam String date) {
-        List<MovieSessionResponseDto> movieSessionsDto = new ArrayList<>();
+        List<MovieSessionResponseDto> movieSessionsResponseDto = new ArrayList<>();
         for (MovieSession movieSession : movieSessionService.findAvailableSessions(
                 movieSessionId, LocalDate.parse(date, DateTimeFormatter.ofPattern("MM.dd.yyyy")))) {
-            movieSessionsDto.add(
+            movieSessionsResponseDto.add(
                     converterUtil.convertMovieSessionIntoMovieSessionResponseDto(movieSession));
         }
-        return movieSessionsDto;
+        return movieSessionsResponseDto;
     }
 }

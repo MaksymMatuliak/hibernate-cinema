@@ -38,10 +38,10 @@ public class OrderController {
 
     @GetMapping("/orders")
     public List<OrderResponseDto> getOrderHistory(@RequestParam Long userId) {
-        List<OrderResponseDto> ordersDto = new ArrayList<>();
+        List<OrderResponseDto> ordersResponseDto = new ArrayList<>();
         for (Order order : orderService.getOrderHistory(userService.getById(userId).get())) {
-            ordersDto.add(converterUtil.convertOrderIntoOrderResponseDto(order));
+            ordersResponseDto.add(converterUtil.convertOrderIntoOrderResponseDto(order));
         }
-        return ordersDto;
+        return ordersResponseDto;
     }
 }
