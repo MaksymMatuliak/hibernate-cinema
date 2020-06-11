@@ -1,7 +1,6 @@
 package com.dev.cinema.service;
 
 import com.dev.cinema.model.CinemaHall;
-import com.dev.cinema.model.Movie;
 import java.util.List;
 import java.util.Optional;
 

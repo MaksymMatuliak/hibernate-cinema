@@ -3,7 +3,6 @@ package com.dev.cinema.dao.impl;
 import com.dev.cinema.dao.CinemaHallDao;
 import com.dev.cinema.exceptions.DataProcessingException;
 import com.dev.cinema.model.CinemaHall;
-import com.dev.cinema.model.Movie;
 import java.util.List;
 import java.util.Optional;
 import javax.persistence.criteria.CriteriaQuery;

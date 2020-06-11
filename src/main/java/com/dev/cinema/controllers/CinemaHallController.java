@@ -30,11 +30,11 @@ public class CinemaHallController {
 
     @GetMapping("/cinema-halls")
     public List<CinemaHallResponseDto> getCinemaHalls() {
-        List<CinemaHallResponseDto> CinemaHallsResponseDto = new ArrayList<>();
+        List<CinemaHallResponseDto> cinemaHallsResponseDto = new ArrayList<>();
         for (CinemaHall cinemaHall : cinemaHallService.getAll()) {
-            CinemaHallsResponseDto.add(
+            cinemaHallsResponseDto.add(
                     converterUtil.convertCinemaHallIntoCinemaHallResponseDto(cinemaHall));
         }
-        return CinemaHallsResponseDto;
+        return cinemaHallsResponseDto;
     }
 }
