@@ -7,7 +7,7 @@ import com.dev.cinema.model.dto.OrderRequestDto;
 import com.dev.cinema.model.dto.OrderResponseDto;
 import com.dev.cinema.service.OrderService;
 import com.dev.cinema.service.UserService;
-import com.dev.cinema.util.ConverterUtil;
+import com.dev.cinema.util.OrderConvertUtil;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,19 +20,19 @@ import org.springframework.web.bind.annotation.RestController;
 public class OrderController {
     private final OrderService orderService;
     private final UserService userService;
-    private final ConverterUtil converterUtil;
+    private final OrderConvertUtil orderConvertUtil;
 
     public OrderController(OrderService orderService, UserService userService,
-                           ConverterUtil converterUtil) {
+                           OrderConvertUtil orderConvertUtil) {
         this.orderService = orderService;
         this.userService = userService;
-        this.converterUtil = converterUtil;
+        this.orderConvertUtil = orderConvertUtil;
     }
 
     @PostMapping("/orders/complete")
     public void completeOrder(@RequestBody OrderRequestDto orderRequestDto) {
         List<Ticket> tickets = new ArrayList<>();
-        User user = userService.findByEmail(orderRequestDto.getUserEmail()).get();
+        User user = userService.getById(orderRequestDto.getUserId()).get();
         orderService.completeOrder(tickets, user);
     }
 
@@ -40,7 +40,7 @@ public class OrderController {
     public List<OrderResponseDto> getOrderHistory(@RequestParam Long userId) {
         List<OrderResponseDto> ordersResponseDto = new ArrayList<>();
         for (Order order : orderService.getOrderHistory(userService.getById(userId).get())) {
-            ordersResponseDto.add(converterUtil.convertOrderIntoOrderResponseDto(order));
+            ordersResponseDto.add(orderConvertUtil.convertOrderIntoOrderResponseDto(order));
         }
         return ordersResponseDto;
     }

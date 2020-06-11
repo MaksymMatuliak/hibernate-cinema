@@ -5,7 +5,7 @@ import java.util.List;
 public class OrderRequestDto {
     private String time;
     private List<TicketRequestDto> ticketsRequestDto;
-    private String userEmail;
+    private Long userId;
 
     public String getTime() {
         return time;
@@ -23,11 +23,11 @@ public class OrderRequestDto {
         this.ticketsRequestDto = ticketsRequestDto;
     }
 
-    public String getUserEmail() {
-        return userEmail;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 }

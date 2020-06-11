@@ -5,7 +5,7 @@ import com.dev.cinema.model.dto.TicketResponseDto;
 import com.dev.cinema.service.MovieSessionService;
 import com.dev.cinema.service.ShoppingCartService;
 import com.dev.cinema.service.UserService;
-import com.dev.cinema.util.ConverterUtil;
+import com.dev.cinema.util.TicketConvertUtil;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,16 +19,16 @@ public class ShoppingCartController {
     private final ShoppingCartService shoppingCartService;
     private final UserService userService;
     private final MovieSessionService movieSessionService;
-    private final ConverterUtil converterUtil;
+    private final TicketConvertUtil ticketConvertUtil;
 
     public ShoppingCartController(ShoppingCartService shoppingCartService,
                                   UserService userService,
                                   MovieSessionService movieSessionService,
-                                  ConverterUtil converterUtil) {
+                                  TicketConvertUtil ticketConvertUtil) {
         this.shoppingCartService = shoppingCartService;
         this.userService = userService;
         this.movieSessionService = movieSessionService;
-        this.converterUtil = converterUtil;
+        this.ticketConvertUtil = ticketConvertUtil;
     }
 
     @PostMapping("/shopping-carts/add-movie-session/{movieSessionId}")
@@ -43,7 +43,7 @@ public class ShoppingCartController {
         List<TicketResponseDto> ticketsResponseDto = new ArrayList<>();
         for (Ticket ticket : shoppingCartService.getByUser(
                 userService.getById(userId).get()).getTickets()) {
-            ticketsResponseDto.add(converterUtil.convertTicketIntoTicketResponseDto(ticket));
+            ticketsResponseDto.add(ticketConvertUtil.convertTicketIntoTicketResponseDto(ticket));
         }
         return ticketsResponseDto;
     }

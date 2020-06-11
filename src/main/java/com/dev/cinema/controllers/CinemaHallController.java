@@ -4,7 +4,7 @@ import com.dev.cinema.model.CinemaHall;
 import com.dev.cinema.model.dto.CinemaHallRequestDto;
 import com.dev.cinema.model.dto.CinemaHallResponseDto;
 import com.dev.cinema.service.CinemaHallService;
-import com.dev.cinema.util.ConverterUtil;
+import com.dev.cinema.util.CinemaHallConvertUtil;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,17 +15,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class CinemaHallController {
     private final CinemaHallService cinemaHallService;
-    private final ConverterUtil converterUtil;
+    private final CinemaHallConvertUtil cinemaHallConvertUtil;
 
-    public CinemaHallController(CinemaHallService cinemaHallService, ConverterUtil converterUtil) {
+    public CinemaHallController(CinemaHallService cinemaHallService, CinemaHallConvertUtil cinemaHallConvertUtil) {
         this.cinemaHallService = cinemaHallService;
-        this.converterUtil = converterUtil;
+        this.cinemaHallConvertUtil = cinemaHallConvertUtil;
     }
 
     @PostMapping("/cinema-halls")
     public void addCinemaHall(@RequestBody CinemaHallRequestDto cinemaHallRequestDto) {
-        cinemaHallService.add(
-                converterUtil.convertCinemaHallRequestDtoIntoCinemaHall(cinemaHallRequestDto));
+        cinemaHallService.add(cinemaHallConvertUtil.convertCinemaHallRequestDtoIntoCinemaHall(
+                cinemaHallRequestDto));
     }
 
     @GetMapping("/cinema-halls")
@@ -33,7 +33,7 @@ public class CinemaHallController {
         List<CinemaHallResponseDto> cinemaHallsResponseDto = new ArrayList<>();
         for (CinemaHall cinemaHall : cinemaHallService.getAll()) {
             cinemaHallsResponseDto.add(
-                    converterUtil.convertCinemaHallIntoCinemaHallResponseDto(cinemaHall));
+                    cinemaHallConvertUtil.convertCinemaHallIntoCinemaHallResponseDto(cinemaHall));
         }
         return cinemaHallsResponseDto;
     }
