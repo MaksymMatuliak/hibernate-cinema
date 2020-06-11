@@ -9,13 +9,15 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
-    private UserService userService;
-    private ShoppingCartService shoppingCartService;
+    private final UserService userService;
+    private final ShoppingCartService shoppingCartService;
+    private final HashUtil hashUtil;
 
     public AuthenticationServiceImpl(UserService userService,
-                                     ShoppingCartService shoppingCartService) {
+                                     ShoppingCartService shoppingCartService, HashUtil hashUtil) {
         this.userService = userService;
         this.shoppingCartService = shoppingCartService;
+        this.hashUtil = hashUtil;
     }
 
     @Override
@@ -23,7 +25,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         User userFromDB = userService.findByEmail(email)
                 .orElseThrow(() -> new AuthenticationException("Incorrect login or password"));
         if (userFromDB.getPassword().equals(
-                HashUtil.hashPassword(password, userFromDB.getSalt()))) {
+                hashUtil.hashPassword(password, userFromDB.getSalt()))) {
             return userFromDB;
         }
         throw new AuthenticationException("Incorrect login or password");

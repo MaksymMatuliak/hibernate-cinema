@@ -1,42 +1,38 @@
 package com.dev.cinema.controllers;
 
-import com.dev.cinema.model.Dto.MovieDto;
 import com.dev.cinema.model.Movie;
+import com.dev.cinema.model.dto.MovieRequestDto;
+import com.dev.cinema.model.dto.MovieResponseDto;
 import com.dev.cinema.service.MovieService;
+import com.dev.cinema.util.ConverterUtil;
 import java.util.ArrayList;
 import java.util.List;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 public class MovieController {
-    private MovieService movieService;
+    private final MovieService movieService;
+    private final ConverterUtil converterUtil;
+
+    public MovieController(MovieService movieService, ConverterUtil converterUtil) {
+        this.movieService = movieService;
+        this.converterUtil = converterUtil;
+    }
 
     @PostMapping("/movies")
-    public void addMovie(String title, String description) {
-        Movie movie = new Movie();
-        movie.setTitle(title);
-        movie.setDescription(description);
-        movieService.add(movie);
+    public void addMovie(@RequestBody MovieRequestDto movieRequestDto) {
+        movieService.add(converterUtil.convertMovieRequestDtoIntoMovie(movieRequestDto));
     }
 
-    @ResponseBody
     @GetMapping("/movies")
-    public List<MovieDto> getMovies() {
-        List<MovieDto> moviesDto = new ArrayList<>();
+    public List<MovieResponseDto> getMovies() {
+        List<MovieResponseDto> moviesResponseDto = new ArrayList<>();
         for (Movie movie : movieService.getAll()) {
-            moviesDto.add(convertMovieIntoMovieDto(movie));
+            moviesResponseDto.add(converterUtil.convertMovieIntoMovieResponseDto(movie));
         }
-        return moviesDto;
-    }
-
-    private MovieDto convertMovieIntoMovieDto(Movie movie) {
-        MovieDto movieDto = new MovieDto();
-        movieDto.setMovieId(movie.getMovieId());
-        movieDto.setDescription(movie.getDescription());
-        movieDto.setTitle(movie.getTitle());
-        return movieDto;
+        return moviesResponseDto;
     }
 }

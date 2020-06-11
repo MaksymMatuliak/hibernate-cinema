@@ -5,6 +5,7 @@ import com.dev.cinema.exceptions.DataProcessingException;
 import com.dev.cinema.model.MovieSession;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import javax.persistence.criteria.CriteriaQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -63,6 +64,18 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
             return query.getResultList();
         } catch (Exception e) {
             throw new DataProcessingException("Can't get available movie sessions", e);
+        }
+    }
+
+    @Override
+    public Optional<MovieSession> getById(Long movieSessionId) {
+        try (Session session = sessionFactory.openSession()) {
+            Query query = session.createQuery(
+                    "FROM MovieSession WHERE movieSessionId= :movieSessionId");
+            query.setParameter("movieSessionId", movieSessionId);
+            return Optional.ofNullable((MovieSession) query.uniqueResult());
+        } catch (Exception e) {
+            throw new DataProcessingException("Can't get movie session", e);
         }
     }
 }
