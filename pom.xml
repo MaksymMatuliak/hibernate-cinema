@@ -11,6 +11,7 @@
 
     <properties>
         <jdk.version>11</jdk.version>
+        <org.springframework.version>5.2.2.RELEASE</org.springframework.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.checkstyle.plugin.version>3.1.1</maven.checkstyle.plugin.version>
@@ -53,13 +54,13 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <version>5.2.6.RELEASE</version>
+            <version>${org.springframework.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-orm</artifactId>
-            <version>5.2.2.RELEASE</version>
+            <version>${org.springframework.version}</version>
         </dependency>
 
         <dependency>
@@ -78,7 +79,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
-            <version>5.2.6.RELEASE</version>
+            <version>${org.springframework.version}</version>
         </dependency>
 
         <dependency>
@@ -122,19 +123,19 @@
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-config</artifactId>
-            <version>5.3.3.RELEASE</version>
+            <version>${org.springframework.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-web</artifactId>
-            <version>5.3.3.RELEASE</version>
+            <version>${org.springframework.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-config</artifactId>
-            <version>5.3.3.RELEASE</version>
+            <version>${org.springframework.version}</version>
         </dependency>
     </dependencies>
     <build>
