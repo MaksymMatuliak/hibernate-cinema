@@ -13,16 +13,16 @@ public class CinemaHall {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cinema_id")
-    private Long cinemaId;
+    private Long cinemaHallId;
     private int capacity;
     private String description;
 
-    public Long getCinemaId() {
-        return cinemaId;
+    public Long getCinemaHallId() {
+        return cinemaHallId;
     }
 
-    public void setCinemaId(Long cinemaId) {
-        this.cinemaId = cinemaId;
+    public void setCinemaHallId(Long cinemaId) {
+        this.cinemaHallId = cinemaId;
     }
 
     public int getCapacity() {
@@ -43,7 +43,7 @@ public class CinemaHall {
 
     @Override
     public String toString() {
-        return "CinemaHall{" + "cinemaId=" + cinemaId + ", capacity='"
+        return "CinemaHall{" + "cinemaId=" + cinemaHallId + ", capacity='"
                 + capacity + '\'' + ", description='" + description + '\'' + '}';
     }
 }
