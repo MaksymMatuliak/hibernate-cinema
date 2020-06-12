@@ -20,7 +20,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.authorizeRequests().anyRequest().authenticated()
+        httpSecurity.authorizeRequests()
+                .antMatchers("/user", "/orders/**", "/shopping-cart/**").authenticated()
                 .and().formLogin().permitAll()
                 .and().httpBasic()
                 .and().csrf().disable();
