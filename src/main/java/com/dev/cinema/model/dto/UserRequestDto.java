@@ -5,15 +5,18 @@ import com.dev.cinema.validation.PasswordConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+@PasswordConstraint
 public class UserRequestDto {
     @NotNull
     @Size(min = 2)
     private String name;
     @EmailConstraint
+    @NotNull
     private String email;
-    @PasswordConstraint
+    @NotNull
+    @Size(min = 2, max = 25)
     private String password;
-    @PasswordConstraint
+    @NotNull
     private String repeatPassword;
 
     public String getName() {
