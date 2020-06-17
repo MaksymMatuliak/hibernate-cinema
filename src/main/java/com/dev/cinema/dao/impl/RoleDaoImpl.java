@@ -1,8 +1,8 @@
 package com.dev.cinema.dao.impl;
 
-import com.dev.cinema.dao.UserDao;
+import com.dev.cinema.dao.RoleDao;
 import com.dev.cinema.exceptions.DataProcessingException;
-import com.dev.cinema.model.User;
+import com.dev.cinema.model.Role;
 import java.util.Optional;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -11,28 +11,28 @@ import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class UserDaoImpl implements UserDao {
+public class RoleDaoImpl implements RoleDao {
     private final SessionFactory sessionFactory;
 
-    public UserDaoImpl(SessionFactory sessionFactory) {
+    public RoleDaoImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
     @Override
-    public User add(User user) {
+    public Role add(Role role) {
         Transaction transaction = null;
         Session session = null;
         try {
             session = sessionFactory.openSession();
             transaction = session.beginTransaction();
-            session.save(user);
+            session.save(role);
             transaction.commit();
-            return user;
+            return role;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException("Can't add user", e);
+            throw new DataProcessingException("Can't add role",e);
         } finally {
             if (session != null) {
                 session.close();
@@ -41,24 +41,14 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public Optional<User> findByEmail(String email) {
+    public Optional<Role> getRoleByName(String roleName) {
         try (Session session = sessionFactory.openSession()) {
-            Query<User> query = session.createQuery("FROM User WHERE email = :email");
-            query.setParameter("email", email);
+            Query<Role> query =
+                    session.createQuery("FROM Role WHERE CAST(roleName as string) = :roleName");
+            query.setParameter("roleName", roleName);
             return Optional.ofNullable(query.uniqueResult());
         } catch (Exception e) {
-            throw new DataProcessingException("Can't get user by email", e);
-        }
-    }
-
-    @Override
-    public Optional<User> getById(Long userId) {
-        try (Session session = sessionFactory.openSession()) {
-            Query query = session.createQuery("FROM User WHERE userId = :userId");
-            query.setParameter("userId", userId);
-            return Optional.ofNullable((User) query.uniqueResult());
-        } catch (Exception e) {
-            throw new DataProcessingException("Can't get user by id", e);
+            throw new DataProcessingException("Can't get role by role name", e);
         }
     }
 }
