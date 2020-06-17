@@ -11,7 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
-public class InjectDataController {
+public class InjectData {
     @Autowired
     private UserService userService;
     @Autowired
