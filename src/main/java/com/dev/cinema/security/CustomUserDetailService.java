@@ -26,7 +26,7 @@ public class CustomUserDetailService implements UserDetailsService {
             userBuilder.roles(user.getRoles()
                     .stream()
                     .map(Role::getRoleName)
-                    .map(x -> x.name())
+                    .map(Enum::name)
                     .toArray(String[]::new));
         } else {
             throw new UsernameNotFoundException("User not found");

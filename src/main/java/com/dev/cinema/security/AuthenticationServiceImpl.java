@@ -1,8 +1,8 @@
 package com.dev.cinema.security;
 
 import com.dev.cinema.exceptions.AuthenticationException;
-import com.dev.cinema.model.Role;
 import com.dev.cinema.model.User;
+import com.dev.cinema.service.RoleService;
 import com.dev.cinema.service.ShoppingCartService;
 import com.dev.cinema.service.UserService;
 import java.util.Set;
@@ -14,13 +14,15 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final UserService userService;
     private final ShoppingCartService shoppingCartService;
     private final PasswordEncoder passwordEncoder;
+    private final RoleService roleService;
 
     public AuthenticationServiceImpl(UserService userService,
                                      ShoppingCartService shoppingCartService,
-                                     PasswordEncoder passwordEncoder) {
+                                     PasswordEncoder passwordEncoder, RoleService roleService) {
         this.userService = userService;
         this.shoppingCartService = shoppingCartService;
         this.passwordEncoder = passwordEncoder;
+        this.roleService = roleService;
     }
 
     @Override
@@ -39,9 +41,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         user.setEmail(email);
         user.setName(name);
         user.setPassword(passwordEncoder.encode(password));
-        Role role = Role.of("USER");
-        role.setId(1L);
-        user.setRoles(Set.of(role));
+        user.setRoles(Set.of(roleService.getRoleByName("USER").get()));
         user = userService.add(user);
         shoppingCartService.registerNewShoppingCart(user);
         return user;
