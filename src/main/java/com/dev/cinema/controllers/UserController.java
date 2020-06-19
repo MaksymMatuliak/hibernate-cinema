@@ -21,6 +21,6 @@ public class UserController {
 
     @GetMapping
     public UserResponseDto getUser(@RequestParam String email) {
-        return userConvertUtil.entityToResponseDto(userService.findByEmail(email).get());
+        return userConvertUtil.entityToResponseDto(userService.findByEmail(email).orElseThrow());
     }
 }

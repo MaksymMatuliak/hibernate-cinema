@@ -2,8 +2,6 @@ package com.dev.cinema.controllers;
 
 import com.dev.cinema.model.dto.MovieSessionRequestDto;
 import com.dev.cinema.model.dto.MovieSessionResponseDto;
-import com.dev.cinema.service.CinemaHallService;
-import com.dev.cinema.service.MovieService;
 import com.dev.cinema.service.MovieSessionService;
 import com.dev.cinema.util.MovieSessionConvertUtil;
 import java.time.LocalDate;
@@ -21,17 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/movie-sessions")
 public class MovieSessionController {
     private final MovieSessionService movieSessionService;
-    private final MovieService movieService;
-    private final CinemaHallService cinemaHallService;
     private final MovieSessionConvertUtil movieSessionConvertUtil;
 
     public MovieSessionController(MovieSessionService movieSessionService,
-                                  MovieService movieService,
-                                  CinemaHallService cinemaHallService,
                                   MovieSessionConvertUtil movieSessionConvertUtil) {
         this.movieSessionService = movieSessionService;
-        this.movieService = movieService;
-        this.cinemaHallService = cinemaHallService;
         this.movieSessionConvertUtil = movieSessionConvertUtil;
     }
 

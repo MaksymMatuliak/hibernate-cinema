@@ -37,15 +37,15 @@ public class ShoppingCartController {
     public void addMovieSessionToShoppingCart(
             @PathVariable Long movieSessionId, Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        shoppingCartService.addSession(movieSessionService.getById(movieSessionId).get(),
-                userService.findByEmail(userDetails.getUsername()).get());
+        shoppingCartService.addSession(movieSessionService.getById(movieSessionId).orElseThrow(),
+                userService.findByEmail(userDetails.getUsername()).orElseThrow());
     }
 
     @GetMapping("/by-user")
     public List<TicketResponseDto> getShoppingCart(Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         return shoppingCartService.getByUser(userService.findByEmail(
-                userDetails.getUsername()).get())
+                userDetails.getUsername()).orElseThrow())
                 .getTickets()
                 .stream().map(ticketConvertUtil::entityToResponseDto)
                 .collect(Collectors.toList());

@@ -35,7 +35,7 @@ public class OrderController {
     @PostMapping("/complete")
     public void completeOrder(@RequestBody OrderRequestDto orderRequestDto) {
         List<Ticket> tickets = new ArrayList<>();
-        User user = userService.getById(orderRequestDto.getUserId()).get();
+        User user = userService.getById(orderRequestDto.getUserId()).orElseThrow();
         orderService.completeOrder(tickets, user);
     }
 
@@ -43,7 +43,7 @@ public class OrderController {
     public List<OrderResponseDto> getOrderHistory(Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         return orderService.getOrderHistory(userService.findByEmail(
-                userDetails.getUsername()).get())
+                userDetails.getUsername()).orElseThrow())
                 .stream()
                 .map(orderConvertUtil::entityToResponseDto)
                 .collect(Collectors.toList());

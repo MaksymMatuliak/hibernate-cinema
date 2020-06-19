@@ -3,12 +3,10 @@ package com.dev.cinema.util;
 import com.dev.cinema.model.Order;
 import com.dev.cinema.model.dto.OrderResponseDto;
 import java.util.stream.Collectors;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class OrderConvertUtil {
-    @Autowired
     private final TicketConvertUtil ticketConvertUtil;
 
     public OrderConvertUtil(TicketConvertUtil ticketConvertUtil) {
