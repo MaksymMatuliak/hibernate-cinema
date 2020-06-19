@@ -63,7 +63,6 @@ Change a path to your Log file in **src/main/resources/log4j.properties** on lin
 <hr>
 
 To work with MySQL you need to:
-- Use file **src/main/resources/init_db.sql** to create schema and all the tables required by this app in MySQL DB
 - Change username and password to match with MySQL in **src/main/resources/db.properties** class on 2 line
 
 <hr>
