@@ -1,6 +1,6 @@
 # Cinema
 
-![Header Image](/src/main/resources/banner-1.png)
+![Header Image](src/main/resources/cinema.jpg)
 
 # Table of Contents
 
