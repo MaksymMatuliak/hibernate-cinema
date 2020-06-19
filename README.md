@@ -38,6 +38,7 @@ DAO layer based on MySQL DB.
 - Spring Security
 - Spring MVC
 - Spring Core
+- Hibernate
 - log4j
 
 ## <a name='developer'></a>For developer
