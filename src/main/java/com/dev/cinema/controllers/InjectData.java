@@ -3,6 +3,7 @@ package com.dev.cinema.controllers;
 import com.dev.cinema.model.Role;
 import com.dev.cinema.model.User;
 import com.dev.cinema.service.RoleService;
+import com.dev.cinema.service.ShoppingCartService;
 import com.dev.cinema.service.UserService;
 import java.util.Set;
 import javax.annotation.PostConstruct;
@@ -13,12 +14,14 @@ import org.springframework.stereotype.Component;
 public class InjectData {
     private final UserService userService;
     private final RoleService roleService;
+    private final ShoppingCartService shoppingCartService;
     private final PasswordEncoder passwordEncoder;
 
     public InjectData(UserService userService, RoleService roleService,
-                      PasswordEncoder passwordEncoder) {
+                      ShoppingCartService shoppingCartService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.roleService = roleService;
+        this.shoppingCartService = shoppingCartService;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -37,5 +40,6 @@ public class InjectData {
         user.setEmail("maks@gmail.com");
         user.setRoles(Set.of(userRole, adminRole));
         userService.add(user);
+        shoppingCartService.registerNewShoppingCart(user);
     }
 }

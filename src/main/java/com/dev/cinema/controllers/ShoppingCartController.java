@@ -1,5 +1,6 @@
 package com.dev.cinema.controllers;
 
+import com.dev.cinema.model.dto.MovieSessionRequestIdDto;
 import com.dev.cinema.model.dto.TicketResponseDto;
 import com.dev.cinema.service.MovieSessionService;
 import com.dev.cinema.service.ShoppingCartService;
@@ -10,8 +11,8 @@ import java.util.stream.Collectors;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,18 +34,20 @@ public class ShoppingCartController {
         this.ticketConvertUtil = ticketConvertUtil;
     }
 
-    @PostMapping("/add-movie-session/{movieSessionId}")
+    @PostMapping("/add-movie-session")
     public void addMovieSessionToShoppingCart(
-            @PathVariable Long movieSessionId, Authentication authentication) {
+            @RequestBody MovieSessionRequestIdDto movieSessionRequestIdDto,
+            Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        shoppingCartService.addSession(movieSessionService.getById(movieSessionId).orElseThrow(),
-                userService.findByEmail(userDetails.getUsername()).orElseThrow());
+        shoppingCartService.addSession(movieSessionService.getById(
+                movieSessionRequestIdDto.getMovieSessionId()).orElseThrow(),
+                userService.getByEmail(userDetails.getUsername()).orElseThrow());
     }
 
     @GetMapping("/by-user")
     public List<TicketResponseDto> getShoppingCart(Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        return shoppingCartService.getByUser(userService.findByEmail(
+        return shoppingCartService.getByUser(userService.getByEmail(
                 userDetails.getUsername()).orElseThrow())
                 .getTickets()
                 .stream().map(ticketConvertUtil::entityToResponseDto)
