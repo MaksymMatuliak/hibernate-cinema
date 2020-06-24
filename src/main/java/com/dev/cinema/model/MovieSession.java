@@ -8,8 +8,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import lombok.Data;
 
 @Entity
+@Data
 @Table(name = "movie_sessions")
 public class MovieSession {
     @Id
@@ -23,42 +25,4 @@ public class MovieSession {
 
     @ManyToOne
     private CinemaHall cinemaHall;
-
-    public Long getMovieSessionId() {
-        return movieSessionId;
-    }
-
-    public void setMovieSessionId(Long movieSessionId) {
-        this.movieSessionId = movieSessionId;
-    }
-
-    public Movie getMovie() {
-        return movie;
-    }
-
-    public void setMovie(Movie movie) {
-        this.movie = movie;
-    }
-
-    public CinemaHall getCinemaHall() {
-        return cinemaHall;
-    }
-
-    public void setCinemaHall(CinemaHall cinemaHall) {
-        this.cinemaHall = cinemaHall;
-    }
-
-    public LocalDateTime getTime() {
-        return time;
-    }
-
-    public void setTime(LocalDateTime time) {
-        this.time = time;
-    }
-
-    @Override
-    public String toString() {
-        return "MovieSession{" + "movieSessionId=" + movieSessionId + ", movie="
-                + movie + ", cinemaHall=" + cinemaHall + ", time=" + time + '}';
-    }
 }
