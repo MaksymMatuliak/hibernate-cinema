@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class MovieSessionServiceImpl implements MovieSessionService {
-    private MovieSessionDao movieSessionDao;
+    private final MovieSessionDao movieSessionDao;
 
     public MovieSessionServiceImpl(MovieSessionDao movieSessionDao) {
         this.movieSessionDao = movieSessionDao;

@@ -4,8 +4,7 @@ import com.dev.cinema.model.dto.UserRequestDto;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class PasswordValidator implements
-        ConstraintValidator<PasswordConstraint, Object> {
+public class PasswordValidator implements ConstraintValidator<PasswordConstraint, Object> {
  
     @Override
     public void initialize(PasswordConstraint password) {

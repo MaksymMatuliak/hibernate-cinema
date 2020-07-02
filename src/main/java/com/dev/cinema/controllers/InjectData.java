@@ -3,21 +3,27 @@ package com.dev.cinema.controllers;
 import com.dev.cinema.model.Role;
 import com.dev.cinema.model.User;
 import com.dev.cinema.service.RoleService;
+import com.dev.cinema.service.ShoppingCartService;
 import com.dev.cinema.service.UserService;
 import java.util.Set;
 import javax.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
 public class InjectData {
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private RoleService roleService;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final UserService userService;
+    private final RoleService roleService;
+    private final ShoppingCartService shoppingCartService;
+    private final PasswordEncoder passwordEncoder;
+
+    public InjectData(UserService userService, RoleService roleService,
+                      ShoppingCartService shoppingCartService, PasswordEncoder passwordEncoder) {
+        this.userService = userService;
+        this.roleService = roleService;
+        this.shoppingCartService = shoppingCartService;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @PostConstruct
     private void inject() {
@@ -34,5 +40,6 @@ public class InjectData {
         user.setEmail("maks@gmail.com");
         user.setRoles(Set.of(userRole, adminRole));
         userService.add(user);
+        shoppingCartService.registerNewShoppingCart(user);
     }
 }

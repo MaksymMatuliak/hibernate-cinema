@@ -5,16 +5,14 @@ import com.dev.cinema.model.dto.MovieSessionRequestDto;
 import com.dev.cinema.model.dto.MovieSessionResponseDto;
 import com.dev.cinema.service.CinemaHallService;
 import com.dev.cinema.service.MovieService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class MovieSessionConvertUtil {
-    @Autowired
     private final CinemaHallService cinemaHallService;
     private final MovieService movieService;
 
-    public MovieSessionConvertUtil(CinemaHallService cinemaHallService, MovieService movieService) {
+    public MovieSessionConvertUtil(MovieService movieService, CinemaHallService cinemaHallService) {
         this.cinemaHallService = cinemaHallService;
         this.movieService = movieService;
     }
@@ -31,9 +29,10 @@ public class MovieSessionConvertUtil {
     public MovieSession requestDtoToEntity(MovieSessionRequestDto movieSessionRequestDto) {
         MovieSession movieSession = new MovieSession();
         movieSession.setCinemaHall(
-                cinemaHallService.getById(movieSessionRequestDto.getCinemaHallId()).get());
+                cinemaHallService.getById(movieSessionRequestDto.getCinemaHallId()).orElseThrow());
         movieSession.setTime(movieSessionRequestDto.getTime());
-        movieSession.setMovie(movieService.getById(movieSessionRequestDto.getMovieId()).get());
+        movieSession.setMovie(
+                movieService.getById(movieSessionRequestDto.getMovieId()).orElseThrow());
         return movieSession;
     }
 

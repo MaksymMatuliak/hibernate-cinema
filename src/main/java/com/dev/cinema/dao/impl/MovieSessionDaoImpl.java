@@ -11,13 +11,15 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class MovieSessionDaoImpl implements MovieSessionDao {
-    @Autowired
-    private SessionFactory sessionFactory;
+    private final SessionFactory sessionFactory;
+
+    public MovieSessionDaoImpl(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
 
     @Override
     public MovieSession add(MovieSession movieSession) {
@@ -70,10 +72,10 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
     @Override
     public Optional<MovieSession> getById(Long movieSessionId) {
         try (Session session = sessionFactory.openSession()) {
-            Query query = session.createQuery(
+            Query<MovieSession> query = session.createQuery(
                     "FROM MovieSession WHERE movieSessionId= :movieSessionId");
             query.setParameter("movieSessionId", movieSessionId);
-            return Optional.ofNullable((MovieSession) query.uniqueResult());
+            return Optional.ofNullable(query.uniqueResult());
         } catch (Exception e) {
             throw new DataProcessingException("Can't get movie session", e);
         }

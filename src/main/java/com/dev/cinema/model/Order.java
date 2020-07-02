@@ -11,8 +11,10 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import lombok.Data;
 
 @Entity
+@Data
 @Table(name = "orders")
 public class Order {
     @Id
@@ -26,42 +28,4 @@ public class Order {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
-
-    public Long getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
-    }
-
-    public List<Ticket> getTickets() {
-        return tickets;
-    }
-
-    public void setTickets(List<Ticket> tickets) {
-        this.tickets = tickets;
-    }
-
-    public LocalDateTime getTime() {
-        return time;
-    }
-
-    public void setTime(LocalDateTime time) {
-        this.time = time;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    @Override
-    public String toString() {
-        return "Order{" + "orderId=" + orderId + ", tickets="
-                + tickets + ", time=" + time + ", user=" + user + '}';
-    }
 }

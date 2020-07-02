@@ -6,20 +6,19 @@ import com.dev.cinema.model.Movie;
 import java.util.List;
 import java.util.Optional;
 import javax.persistence.criteria.CriteriaQuery;
-import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class MovieDaoImpl implements MovieDao {
-    private static final Logger LOGGER = Logger.getLogger(MovieDaoImpl.class);
+    private final SessionFactory sessionFactory;
 
-    @Autowired
-    private SessionFactory sessionFactory;
+    public MovieDaoImpl(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
 
     public Movie add(Movie movie) {
         Transaction transaction = null;
